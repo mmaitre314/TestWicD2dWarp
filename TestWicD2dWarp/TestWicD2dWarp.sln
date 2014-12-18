@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestWicD2dWarp", "TestWicD2dWarp", "{5ACD650F-A995-42EE-8565-CBA6E68191D6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestWicD2dWarp.Shared", "TestWicD2dWarp\TestWicD2dWarp.Shared\TestWicD2dWarp.Shared.vcxitems", "{C726CFE9-DBBA-4868-A587-94B03FC33A7B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestWicD2dWarp.Windows", "TestWicD2dWarp\TestWicD2dWarp.Windows\TestWicD2dWarp.Windows.vcxproj", "{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestWicD2dWarp.WindowsPhone", "TestWicD2dWarp\TestWicD2dWarp.WindowsPhone\TestWicD2dWarp.WindowsPhone.vcxproj", "{4B135E5D-D098-4707-8E75-9308603B9BF2}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TestWicD2dWarp\TestWicD2dWarp.Shared\TestWicD2dWarp.Shared.vcxitems*{c726cfe9-dbba-4868-a587-94b03fc33a7b}*SharedItemsImports = 9
+		TestWicD2dWarp\TestWicD2dWarp.Shared\TestWicD2dWarp.Shared.vcxitems*{5e55cf8c-7759-4af5-9695-dcc7ae4a75e0}*SharedItemsImports = 4
+		TestWicD2dWarp\TestWicD2dWarp.Shared\TestWicD2dWarp.Shared.vcxitems*{4b135e5d-d098-4707-8e75-9308603b9bf2}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|ARM.Build.0 = Debug|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|ARM.Deploy.0 = Debug|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|Win32.Build.0 = Debug|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|Win32.Deploy.0 = Debug|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|x64.ActiveCfg = Debug|x64
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|x64.Build.0 = Debug|x64
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Debug|x64.Deploy.0 = Debug|x64
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|ARM.ActiveCfg = Release|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|ARM.Build.0 = Release|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|ARM.Deploy.0 = Release|ARM
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|Win32.ActiveCfg = Release|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|Win32.Build.0 = Release|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|Win32.Deploy.0 = Release|Win32
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|x64.ActiveCfg = Release|x64
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|x64.Build.0 = Release|x64
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0}.Release|x64.Deploy.0 = Release|x64
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|ARM.Build.0 = Debug|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|ARM.Deploy.0 = Debug|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|Win32.Build.0 = Debug|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|Win32.Deploy.0 = Debug|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Debug|x64.ActiveCfg = Debug|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|ARM.ActiveCfg = Release|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|ARM.Build.0 = Release|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|ARM.Deploy.0 = Release|ARM
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|Win32.ActiveCfg = Release|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|Win32.Build.0 = Release|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|Win32.Deploy.0 = Release|Win32
+		{4B135E5D-D098-4707-8E75-9308603B9BF2}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C726CFE9-DBBA-4868-A587-94B03FC33A7B} = {5ACD650F-A995-42EE-8565-CBA6E68191D6}
+		{5E55CF8C-7759-4AF5-9695-DCC7AE4A75E0} = {5ACD650F-A995-42EE-8565-CBA6E68191D6}
+		{4B135E5D-D098-4707-8E75-9308603B9BF2} = {5ACD650F-A995-42EE-8565-CBA6E68191D6}
+	EndGlobalSection
+EndGlobal
