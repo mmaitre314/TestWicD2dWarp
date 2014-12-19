@@ -102,7 +102,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -112,7 +112,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -122,7 +122,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +132,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,7 +142,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,7 +152,7 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies);D2d1.lib;shcore.lib;D3D11.lib;dxguid.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

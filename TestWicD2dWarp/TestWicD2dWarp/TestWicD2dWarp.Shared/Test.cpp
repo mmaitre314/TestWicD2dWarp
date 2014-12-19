@@ -206,6 +206,8 @@ void Test::RunRGB()
     ComPtr<IWICImagingFactory> wicFactory;
     CHK(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&wicFactory)));
 
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Initializing source bitmap");
+
     // source
     ComPtr<IWICBitmap> wicBitmapSrc;
     CHK(wicFactory->CreateBitmap(width, height, GUID_WICPixelFormat32bppPBGRA, WICBitmapCacheOnLoad, &wicBitmapSrc));
@@ -238,6 +240,8 @@ void Test::RunRGB()
             data += stride;
         }
     }
+
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Setup DX");
 
     //
     // Setup DX
@@ -273,6 +277,8 @@ void Test::RunRGB()
     //
     // Setup D2D
     //
+
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Setup D2D");
 
     ComPtr<ID2D1Factory1> d2dFactory;
     CHK(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, IID_PPV_ARGS(&d2dFactory)));
@@ -324,19 +330,49 @@ void Test::RunRGB()
     // Render destination bitmap
     //
 
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Render");
+
     d2dContext->BeginDraw();
     d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
     d2dContext->DrawImage(perspective.Get());
     CHK(d2dContext->EndDraw());
 
     //
+    // Get a CPU-accessible bitmap
+    //
+
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Copy to CPU-accessible bitmap");
+
+    D2D1_BITMAP_PROPERTIES1 d2dBitmapDstProps2 =
+    {
+        {
+            DXGI_FORMAT_B8G8R8A8_UNORM,
+            D2D1_ALPHA_MODE_PREMULTIPLIED
+        },
+        0.f,
+        0.f,
+        D2D1_BITMAP_OPTIONS_CPU_READ | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+        nullptr
+    };
+    ComPtr<ID2D1Bitmap1> d2dBitmapDst2;
+    CHK(d2dContext->CreateBitmap(D2D1::SizeU(width, height), nullptr, 0, d2dBitmapDstProps2, &d2dBitmapDst2));
+    CHK(d2dBitmapDst2->CopyFromBitmap(nullptr, d2dBitmapDst.Get(), nullptr));
+
+    // Verify CPU access
+    D2D1_MAPPED_RECT rect;
+    CHK(d2dBitmapDst2->Map(D2D1_MAP_OPTIONS_READ, &rect));
+    CHK(d2dBitmapDst2->Unmap());
+
+    //
     // Encode to JPEG
     //
+
+    (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Saving as JPEG");
 
     create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::ReplaceExisting)).then([](StorageFile^ file)
     {
         return file->OpenAsync(FileAccessMode::ReadWrite);
-    }).then([wicFactory, d2dBitmapDst, d2dDevice, width, height](IRandomAccessStream^ stream)
+    }).then([wicFactory, d2dBitmapDst2, d2dDevice, width, height](IRandomAccessStream^ stream)
     {
         ComPtr<IStream> wrappedStream;
         CHK(CreateStreamOverRandomAccessStream(As<IUnknown>(stream).Get(), IID_PPV_ARGS(&wrappedStream)));
@@ -351,10 +387,12 @@ void Test::RunRGB()
 
         ComPtr<IWICImageEncoder> wicImageEncoder;
         CHK(As<IWICImagingFactory2>(wicFactory)->CreateImageEncoder(d2dDevice.Get(), &wicImageEncoder));
-        CHK(wicImageEncoder->WriteFrame(d2dBitmapDst.Get(), wicFrame.Get(), nullptr));
+        CHK(wicImageEncoder->WriteFrame(d2dBitmapDst2.Get(), wicFrame.Get(), nullptr));
 
         CHK(wicFrame->Commit());
         CHK(wicEncoder->Commit());
         CHK(wrappedStream->Commit(STGC_DEFAULT));
+
+        (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Done");
     });
 }

@@ -14,6 +14,8 @@
 #include <D2d1_1.h>
 #include <d2d1effects.h>
 #include <shcore.h>
+#include <evntprov.h>
+#include <evntrace.h>
 #include <windows.storage.h>
 #include <windows.storage.streams.h>
 
@@ -57,4 +59,18 @@ Microsoft::WRL::ComPtr<T> As(U^ in)
     Microsoft::WRL::ComPtr<T> out;
     CHK(reinterpret_cast<IInspectable*>(in)->QueryInterface(IID_PPV_ARGS(&out)));
     return out;
+}
+
+__declspec(selectany) REGHANDLE g_ETWHandle = 0;
+__declspec(selectany) BOOL g_bEnabled = false;
+__declspec(selectany) UCHAR g_nLevel = 0;
+
+// Not store compliant
+extern "C" {
+    ULONG EVNTAPI EventWriteString(
+        _In_ REGHANDLE RegHandle,
+        _In_ UCHAR Level,
+        _In_ ULONGLONG Keyword,
+        _In_ PCWSTR String
+        );
 }
