@@ -1,7 +1,3 @@
-//
-// !!! Code not working !!!
-//
-
 #include "pch.h"
 #include "Test.h"
 
@@ -12,6 +8,10 @@ using namespace Windows::Storage::Streams;
 
 void Test::RunYUV()
 {
+    //
+    // !!! Code not working !!!
+    //
+
     // 5Mpx
     const unsigned int width = 2592;
     const unsigned int height = 1936;
@@ -138,11 +138,6 @@ void Test::RunYUV()
 
     d2dContext->BeginDraw();
     d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
-    //d2dContext->SetTransform(
-    //    D2D1::Matrix3x2F::Rotation(
-    //        45.0f,
-    //        D2D1::Point2F(468.0f, 331.5f))
-    //    );
     d2dContext->DrawImage(d2dBitmapSrc.Get());
     CHK(d2dContext->EndDraw());
 
@@ -196,32 +191,6 @@ void Test::RunYUV()
         CHK(wicFrame->Commit());
         CHK(wicEncoder->Commit());
     });
-
-    // --- Gaussian blur effect
-
-    //ComPtr<ID2D1Effect> gaussianBlurEffect;
-    //m_d2dContext->CreateEffect(CLSID_D2D1GaussianBlur, &gaussianBlurEffect);
-
-    //gaussianBlurEffect->SetInput(0, bitmap);
-    //gaussianBlurEffect->SetValue(D2D1_GAUSSIANBLUR_PROP_STANDARD_DEVIATION, 3.0f);
-
-    //m_d2dContext->BeginDraw();
-    //m_d2dContext->DrawImage(gaussianBlurEffect.Get());
-    //m_d2dContext->EndDraw();
-
-    // --- homography
-
-    //ComPtr<ID2D1Effect> perspectiveTransformEffect;
-    //m_d2dContext->CreateEffect(CLSID_D2D13DPerspectiveTransform, &perspectiveTransformEffect);
-
-    //perspectiveTransformEffect->SetInput(0, bitmap);
-
-    //perspectiveTransformEffect->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_PERSPECTIVE_ORIGIN, D2D1::Vector3F(0.0f, 192.0f, 0.0f));
-    //perspectiveTransformEffect->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_ROTATION, D2D1::Vector3F(0.0f, 30.0f, 0.0f));
-
-    //m_d2dContext->BeginDraw();
-    //m_d2dContext->DrawImage(perspectiveTransformEffect.Get());
-    //m_d2dContext->EndDraw();
 }
 
 void Test::RunRGB()
@@ -239,11 +208,7 @@ void Test::RunRGB()
 
     // source
     ComPtr<IWICBitmap> wicBitmapSrc;
-    CHK(wicFactory->CreateBitmap(width, height, GUID_WICPixelFormat32bppBGR, WICBitmapCacheOnLoad, &wicBitmapSrc));
-
-    //// destination
-    //ComPtr<IWICBitmap> wicBitmapDst;
-    //CHK(wicFactory->CreateBitmap(width, height, GUID_WICPixelFormat32bppBGR, WICBitmapCacheOnLoad, &wicBitmapDst));
+    CHK(wicFactory->CreateBitmap(width, height, GUID_WICPixelFormat32bppPBGRA, WICBitmapCacheOnLoad, &wicBitmapSrc));
 
     //
     // Fill-in the source bitmap with some pattern
@@ -294,9 +259,9 @@ void Test::RunRGB()
     ComPtr<ID3D11DeviceContext> d3dContext;
     CHK(D3D11CreateDevice(
         nullptr,
-        D3D_DRIVER_TYPE_WARP, //, // D3D_DRIVER_TYPE_HARDWARE
+        D3D_DRIVER_TYPE_WARP, // D3D_DRIVER_TYPE_HARDWARE
         0,
-        D3D11_CREATE_DEVICE_BGRA_SUPPORT, // D3D11_CREATE_DEVICE_DEBUG
+        D3D11_CREATE_DEVICE_BGRA_SUPPORT,
         featureLevels,
         ARRAYSIZE(featureLevels),
         D3D11_SDK_VERSION,
@@ -317,87 +282,52 @@ void Test::RunRGB()
     CHK(d2dFactory->CreateDevice(As<IDXGIDevice>(d3dDevice).Get(), &d2dDevice));
     CHK(d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &d2dContext));
 
-    //D2D1_BITMAP_PROPERTIES1 d2dBitmapDstProps =
-    //{
-    //    {
-    //        DXGI_FORMAT_B8G8R8A8_UNORM,
-    //        D2D1_ALPHA_MODE_IGNORE
-    //    },
-    //    0.f,
-    //    0.f,
-    //    D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
-    //    nullptr
-    //};
-    //CHK(d2dContext->CreateBitmapFromWicBitmap(wicBitmapDst.Get(), d2dBitmapDstProps, &d2dBitmapDst));
-    //{
-    //    WICRect rect = { 0, 0, width, height };
-    //    ComPtr<IWICBitmapLock> wicBitmapLockDst;
-    //    CHK(wicBitmapDst->Lock(&rect, WICBitmapLockWrite, &wicBitmapLockDst));
-
-    //    D2D1_BITMAP_PROPERTIES d2dBitmapProps =
-    //    {
-    //        {
-    //            DXGI_FORMAT_B8G8R8A8_UNORM,
-    //            D2D1_ALPHA_MODE_IGNORE
-    //        },
-    //        0.f,
-    //        0.f
-    //    };
-    //    CHK(d2dContext->CreateSharedBitmap(__uuidof(wicBitmapLockDst), wicBitmapLockDst.Get(), &d2dBitmapProps, &d2dBitmapDst));
-    //}
-    //D2D1_BITMAP_PROPERTIES1 d2dBitmapDstProps =
-    //{
-    //    {
-    //        DXGI_FORMAT_B8G8R8A8_UNORM,
-    //        D2D1_ALPHA_MODE_IGNORE
-    //    },
-    //    0.f,
-    //    0.f,
-    //    D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
-    //    nullptr
-    //};
-    //ComPtr<ID2D1Bitmap1> d2dBitmapDst;
-    //CHK(d2dContext->CreateBitmap(D2D1::SizeU(width, height), nullptr, 0, d2dBitmapDstProps, &d2dBitmapDst));
-    //d2dContext->SetTarget(d2dBitmapDst.Get());
+    D2D1_BITMAP_PROPERTIES1 d2dBitmapDstProps =
+    {
+        {
+            DXGI_FORMAT_B8G8R8A8_UNORM,
+            D2D1_ALPHA_MODE_PREMULTIPLIED
+        },
+        0.f,
+        0.f,
+        D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+        nullptr
+    };
+    ComPtr<ID2D1Bitmap1> d2dBitmapDst;
+    CHK(d2dContext->CreateBitmap(D2D1::SizeU(width, height), nullptr, 0, d2dBitmapDstProps, &d2dBitmapDst));
+    d2dContext->SetTarget(d2dBitmapDst.Get());
 
     ComPtr<ID2D1Bitmap> d2dBitmapSrc;
     {
-        //WICRect rect = { 0, 0, width, height };
-        //ComPtr<IWICBitmapLock> wicBitmapLockSrc;
-        //CHK(wicBitmapSrc->Lock(&rect, WICBitmapLockRead, &wicBitmapLockSrc));
+        WICRect rect = { 0, 0, width, height };
+        ComPtr<IWICBitmapLock> wicBitmapLockSrc;
+        CHK(wicBitmapSrc->Lock(&rect, WICBitmapLockRead, &wicBitmapLockSrc));
 
-        //D2D1_BITMAP_PROPERTIES d2dBitmapProps =
-        //{
-        //    {
-        //        DXGI_FORMAT_B8G8R8A8_UNORM,
-        //        D2D1_ALPHA_MODE_IGNORE
-        //    },
-        //    0.f,
-        //    0.f
-        //};
-        //CHK(d2dContext->CreateSharedBitmap(__uuidof(wicBitmapLockSrc), wicBitmapLockSrc.Get(), &d2dBitmapProps, &d2dBitmapSrc));
-        CHK(d2dContext->CreateBitmapFromWicBitmap(wicBitmapSrc.Get(), &d2dBitmapSrc));
+        D2D1_BITMAP_PROPERTIES d2dBitmapProps =
+        {
+            {
+                DXGI_FORMAT_B8G8R8A8_UNORM,
+                D2D1_ALPHA_MODE_IGNORE
+            },
+            0.f,
+            0.f
+        };
+        CHK(d2dContext->CreateSharedBitmap(__uuidof(wicBitmapLockSrc), wicBitmapLockSrc.Get(), &d2dBitmapProps, &d2dBitmapSrc));
     }
 
-    //ComPtr<ID2D1Effect> blur;
-    //CHK(d2dContext->CreateEffect(CLSID_D2D1GaussianBlur, &blur));
-    //blur->SetInput(0, d2dBitmapSrc.Get());
-    //CHK(blur->SetValue(D2D1_GAUSSIANBLUR_PROP_STANDARD_DEVIATION, 100.f));
-
-    //ComPtr<ID2D1Effect> perspective;
-    //d2dContext->CreateEffect(CLSID_D2D13DPerspectiveTransform, &perspective);
-    //perspective->SetInput(0, d2dBitmapSrc.Get());
-    ////CHK(perspective->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_PERSPECTIVE_ORIGIN, D2D1::Vector3F(0.0f, 192.0f, 0.0f)));
-    //CHK(perspective->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_ROTATION, D2D1::Vector3F(0.0f, 30.0f, 0.0f)));
+    ComPtr<ID2D1Effect> perspective;
+    d2dContext->CreateEffect(CLSID_D2D13DPerspectiveTransform, &perspective);
+    perspective->SetInput(0, d2dBitmapSrc.Get());
+    CHK(perspective->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_ROTATION, D2D1::Vector3F(10.f, 10.f, 0.f)));
 
     //
     // Render destination bitmap
     //
 
-    //d2dContext->BeginDraw();
-    //d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
-    //d2dContext->DrawImage(d2dBitmapSrc.Get());
-    //CHK(d2dContext->EndDraw());
+    d2dContext->BeginDraw();
+    d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
+    d2dContext->DrawImage(perspective.Get());
+    CHK(d2dContext->EndDraw());
 
     //
     // Encode to JPEG
@@ -406,7 +336,7 @@ void Test::RunRGB()
     create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::ReplaceExisting)).then([](StorageFile^ file)
     {
         return file->OpenAsync(FileAccessMode::ReadWrite);
-    }).then([wicFactory, d2dBitmapSrc, d2dDevice, width, height](IRandomAccessStream^ stream)
+    }).then([wicFactory, d2dBitmapDst, d2dDevice, width, height](IRandomAccessStream^ stream)
     {
         ComPtr<IStream> wrappedStream;
         CHK(CreateStreamOverRandomAccessStream(As<IUnknown>(stream).Get(), IID_PPV_ARGS(&wrappedStream)));
@@ -421,24 +351,10 @@ void Test::RunRGB()
 
         ComPtr<IWICImageEncoder> wicImageEncoder;
         CHK(As<IWICImagingFactory2>(wicFactory)->CreateImageEncoder(d2dDevice.Get(), &wicImageEncoder));
-        CHK(wicImageEncoder->WriteFrame(d2dBitmapSrc.Get(), wicFrame.Get(), nullptr));
+        CHK(wicImageEncoder->WriteFrame(d2dBitmapDst.Get(), wicFrame.Get(), nullptr));
 
         CHK(wicFrame->Commit());
         CHK(wicEncoder->Commit());
         CHK(wrappedStream->Commit(STGC_DEFAULT));
     });
-
-    // --- homography
-
-    //ComPtr<ID2D1Effect> perspectiveTransformEffect;
-    //m_d2dContext->CreateEffect(CLSID_D2D13DPerspectiveTransform, &perspectiveTransformEffect);
-
-    //perspectiveTransformEffect->SetInput(0, bitmap);
-
-    //perspectiveTransformEffect->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_PERSPECTIVE_ORIGIN, D2D1::Vector3F(0.0f, 192.0f, 0.0f));
-    //perspectiveTransformEffect->SetValue(D2D1_3DPERSPECTIVETRANSFORM_PROP_ROTATION, D2D1::Vector3F(0.0f, 30.0f, 0.0f));
-
-    //m_d2dContext->BeginDraw();
-    //m_d2dContext->DrawImage(perspectiveTransformEffect.Get());
-    //m_d2dContext->EndDraw();
 }
