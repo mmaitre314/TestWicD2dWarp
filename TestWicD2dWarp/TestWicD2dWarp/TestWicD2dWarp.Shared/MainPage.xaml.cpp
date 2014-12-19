@@ -24,5 +24,5 @@ MainPage::MainPage()
 {
     InitializeComponent();
 
-    Test::Run();
+    Test::RunRGB();
 }

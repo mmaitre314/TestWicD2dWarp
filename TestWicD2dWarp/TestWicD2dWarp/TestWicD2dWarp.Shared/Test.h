@@ -3,6 +3,7 @@
 class Test
 {
 public:
-    static void Run();
+    static void RunYUV();
+    static void RunRGB();
 };
 
