@@ -22,7 +22,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Test.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainPage.xaml.h">
       <DependentUpon>$(MSBuildThisFileDirectory)MainPage.xaml</DependentUpon>
     </ClInclude>
@@ -33,7 +32,6 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />

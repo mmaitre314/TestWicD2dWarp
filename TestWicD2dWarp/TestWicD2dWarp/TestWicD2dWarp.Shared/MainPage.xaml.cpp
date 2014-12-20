@@ -5,7 +5,7 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
-#include "Test.h"
+#include <ImageProcessor.h>
 
 using namespace TestWicD2dWarp;
 
@@ -52,7 +52,7 @@ MainPage::MainPage()
     static const GUID guidTrace = { 0x16f4a0eb, 0x6913, 0x4aea, { 0xbe, 0x78, 0xce, 0x76, 0x11, 0x8, 0xc4, 0x79 } };
     (void)EventRegister(&guidTrace, EnableCallback, NULL, &g_ETWHandle);
 
-    Test::RunRGB();
+    ImageProcessor::RunRgbAsync();
 
     (void)EventUnregister(g_ETWHandle);
     g_ETWHandle = 0;

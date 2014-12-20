@@ -1,12 +1,12 @@
-#include "pch.h"
-#include "Test.h"
+﻿#include "pch.h"
+#include "ImageProcessor.h"
 
 using namespace concurrency;
 using namespace Microsoft::WRL;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
 
-void Test::RunYUV()
+task<void> ImageProcessor::RunYuvAsync()
 {
     //
     // !!! Code not working !!!
@@ -193,7 +193,7 @@ void Test::RunYUV()
     });
 }
 
-void Test::RunRGB()
+task<void> ImageProcessor::RunRgbAsync()
 {
     // 5Mpx
     const unsigned int width = 2592;
@@ -374,7 +374,7 @@ void Test::RunRGB()
 
     (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Saving as JPEG");
 
-    create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::GenerateUniqueName)).then([](StorageFile^ file)
+    return create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::GenerateUniqueName)).then([](StorageFile^ file)
     {
         return file->OpenAsync(FileAccessMode::ReadWrite);
     }).then([wicFactory, d2dBitmapDst2, d2dDevice, width, height](IRandomAccessStream^ stream)
