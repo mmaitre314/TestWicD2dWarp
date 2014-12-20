@@ -145,7 +145,7 @@ void Test::RunYUV()
     // Encode to JPEG
     //
 
-    create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpYUV.jpg", CreationCollisionOption::ReplaceExisting)).then([](StorageFile^ file)
+    create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpYUV.jpg", CreationCollisionOption::GenerateUniqueName)).then([](StorageFile^ file)
     {
         return file->OpenAsync(FileAccessMode::ReadWrite);
     }).then([wicFactory, wicBitmapDst, width, height](IRandomAccessStream^ stream)
@@ -227,14 +227,19 @@ void Test::RunRGB()
         CHK(wicBitmapLockSrc->GetDataPointer(&size, &data));
         CHK(wicBitmapLockSrc->GetStride(&stride));
 
+        srand((unsigned int)time(nullptr));
+        unsigned char B = (unsigned char)rand();
+        unsigned char G = (unsigned char)rand();
+        unsigned char R = (unsigned char)rand();
+
         for (int i = 0; i < (int)height; i++)
         {
             for (int j = 0; j < (int)width; j++)
             {
-                unsigned char value = 255 * ((i / 100) % 2) * ((j / 100) % 2); // 100x100 squares
-                data[4 * j + 0] = value;
-                data[4 * j + 1] = value;
-                data[4 * j + 2] = value;
+                bool mask = (((i / 100) & 1) == 1) && (((j / 100) & 1) == 1); // 100x100 squares
+                data[4 * j + 0] = mask ? B : 0;
+                data[4 * j + 1] = mask ? G : 0;
+                data[4 * j + 2] = mask ? R : 0;
                 data[4 * j + 3] = 0xFF;
             }
             data += stride;
@@ -286,13 +291,13 @@ void Test::RunRGB()
     ComPtr<ID2D1Device> d2dDevice;
     ComPtr<ID2D1DeviceContext> d2dContext;
     CHK(d2dFactory->CreateDevice(As<IDXGIDevice>(d3dDevice).Get(), &d2dDevice));
-    CHK(d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &d2dContext));
+    CHK(d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_ENABLE_MULTITHREADED_OPTIMIZATIONS, &d2dContext));
 
     D2D1_BITMAP_PROPERTIES1 d2dBitmapDstProps =
     {
         {
             DXGI_FORMAT_B8G8R8A8_UNORM,
-            D2D1_ALPHA_MODE_PREMULTIPLIED
+            D2D1_ALPHA_MODE_IGNORE
         },
         0.f,
         0.f,
@@ -347,7 +352,7 @@ void Test::RunRGB()
     {
         {
             DXGI_FORMAT_B8G8R8A8_UNORM,
-            D2D1_ALPHA_MODE_PREMULTIPLIED
+            D2D1_ALPHA_MODE_IGNORE
         },
         0.f,
         0.f,
@@ -369,7 +374,7 @@ void Test::RunRGB()
 
     (void)EventWriteString(g_ETWHandle, TRACE_LEVEL_INFORMATION, 0, L"Saving as JPEG");
 
-    create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::ReplaceExisting)).then([](StorageFile^ file)
+    create_task(KnownFolders::PicturesLibrary->CreateFileAsync(L"TestWicD2dWarpRGB.jpg", CreationCollisionOption::GenerateUniqueName)).then([](StorageFile^ file)
     {
         return file->OpenAsync(FileAccessMode::ReadWrite);
     }).then([wicFactory, d2dBitmapDst2, d2dDevice, width, height](IRandomAccessStream^ stream)

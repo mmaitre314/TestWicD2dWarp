@@ -8,6 +8,7 @@
 #include <collection.h>
 #include <ppltasks.h>
 #include <vector>
+#include <time.h>
 #include <wrl.h>
 #include <wincodec.h>
 #include <D3D11.h>
